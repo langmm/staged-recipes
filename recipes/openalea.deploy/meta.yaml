@@ -1,0 +1,40 @@
+{% set name = "deploy" %}
+{% set version = "2.1.1" %}
+
+package:
+  name: openalea.{{ name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/openalea/{{ name }}/archive/v{{ version }}.tar.gz
+  sha256: 8752fc5ebfef29cb77690f46ced25221894b576fe07adc445100c222e6a1cb87
+  patches:
+    - 2.1.1.patch
+
+build:
+  preserve_egg_dir: True
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - pywin32  # [win]
+    - six
+  run:
+    - python
+    - setuptools
+    - pywin32  # [win]
+    - six
+    - path.py
+
+test:
+  imports:
+    - openalea.deploy
+
+about:
+  home: http://github.com/openalea/deploy
+  license: CECILL-C
+  license_file: LICENSE
+  summary: OpenAlea.Deploy support the installation of OpenAlea packages via the network and manage their dependencies.
